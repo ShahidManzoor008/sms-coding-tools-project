@@ -7,7 +7,7 @@
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Shahid Manzoor",
   "license": "ISC",
   "description": "",
   "dependencies": {

@@ -30,7 +30,7 @@ const {
 
 const app = express();
 const port = process.env.PORT || 5000;
-const CORS_ORIGIN = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*";
+const CORS_ORIGIN = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : [];
 
 // ============================
 // 🛡️ Enable CORS and Security Middleware
