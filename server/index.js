@@ -29,7 +29,7 @@ const {
 } = require("docx");
 
 const app = express();
-const port = process.env.BACKEND_PORT || 5000;
+const port = process.env.PORT || 5000;
 const CORS_ORIGIN = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*";
 
 // ============================
