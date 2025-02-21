@@ -30,16 +30,14 @@ const {
 
 const app = express();
 const port = process.env.BACKEND_PORT || 5000;
-const API_BASE_URL = process.env.API_BASE_URL;
-const SECRET_KEY = process.env.SECRET_KEY;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
+const CORS_ORIGIN = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*";
 
 // ============================
 // 🛡️ Enable CORS and Security Middleware
 // ============================
 app.use(
   cors({
-    origin: CORS_ORIGIN.split(","), // ✅ Supports multiple origins if comma-separated
+    origin: CORS_ORIGIN.split(","),
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -450,5 +448,5 @@ app.post("/api/convert-markdown", upload.single("file"),validateFileUpload, asyn
 // 🚀 Start Backend Server
 // ============================
 app.listen(port, () => {
-  console.log(`PDF Conversion API running on http://localhost:${port}`);
+  console.log(`API running on http://localhost:${port}`);
 });
