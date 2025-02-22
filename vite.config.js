@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
     },
     server: {
-      port: 443, // ✅ Change if needed
+      port: 3000, // ✅ Change if needed
     },
     build: {
       outDir: 'dist',
