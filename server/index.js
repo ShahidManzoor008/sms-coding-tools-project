@@ -42,15 +42,20 @@ app.use(
   })
 );
 app.use(helmet());
-
+app.set("trust proxy", 1);
 // ============================
 // 🛡️ Rate Limiting: 10 requests per minute per IP
 // ============================
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 10, // Limit each IP to 10 requests per minute
+  max: 10, // Limit each IP to 10 requests per window
   message: { error: "Too many requests, please try again later." },
 });
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 10, // Limit each IP to 10 requests per minute
+//   message: { error: "Too many requests, please try again later." },
+// });
 app.use("/api/", limiter);
 
 // ============================
