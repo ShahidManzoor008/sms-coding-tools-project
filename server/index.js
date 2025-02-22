@@ -110,13 +110,13 @@ app.post("/api/test-upload", upload.single("file"), (req, res) => {
 // ============================
 app.use(express.json());
 
-// ============================
-// 📂 Serve Static Files from React App
-// ============================
-app.use(express.static(path.join(__dirname, "dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+// // ============================
+// // 📂 Serve Static Files from React App
+// // ============================
+// app.use(express.static(path.join(__dirname, "dist")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "dist", "index.html"));
+// });
 // ============================
 // 🧹 Helper Function: Cleanup Uploaded Files
 // ============================
