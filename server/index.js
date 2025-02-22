@@ -10,8 +10,9 @@ const helmet = require("helmet");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const puppeteer = require("puppeteer");
 const mammoth = require("mammoth");
+const chromium = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer-core");
 const XLSX = require("exceljs");
 const { PDFDocument, rgb } = require("pdf-lib");
 const rateLimit = require("express-rate-limit");
@@ -133,14 +134,20 @@ const cleanupFiles = (files) => {
 // ============================
 const convertDocxToPDF = async (filePath) => {
   const buffer = fs.readFileSync(filePath);
-  // Convert DOCX to HTML using mammoth
+
+  // Convert DOCX to HTML using Mammoth
   const { value: html } = await mammoth.convertToHtml({ buffer });
-  // Render HTML with Puppeteer for PDF
+
+  // Launch Puppeteer (Optimized for Render)
   const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: chromium.args,
+    executablePath: await chromium.executablePath || "/usr/bin/chromium-browser",
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true,
   });
+
   const page = await browser.newPage();
+
   const styledHtml = `
     <html>
       <head>
@@ -158,7 +165,9 @@ const convertDocxToPDF = async (filePath) => {
       </body>
     </html>
   `;
+
   await page.setContent(styledHtml, { waitUntil: "domcontentloaded" });
+
   const pdfBuffer = await page.pdf({
     format: "A4",
     printBackground: true,
@@ -169,6 +178,7 @@ const convertDocxToPDF = async (filePath) => {
       right: "20px",
     },
   });
+
   await browser.close();
   return pdfBuffer;
 };
@@ -196,8 +206,10 @@ const convertXlsxToPDF = async (filePath) => {
 const convertMarkdownToPDF = async (filePath) => {
   const markdown = fs.readFileSync(filePath, "utf-8");
   const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: chromium.args,
+    executablePath: await chromium.executablePath || "/usr/bin/chromium-browser",
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true,
   });
   const page = await browser.newPage();
   await page.setContent(`<html><body><pre>${markdown}</pre></body></html>`);
