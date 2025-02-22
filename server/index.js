@@ -447,5 +447,5 @@ app.post("/api/convert-markdown", upload.single("file"),validateFileUpload, asyn
 // 🚀 Start Backend Server
 // ============================
 app.listen(port, () => {
-  console.log(`API running on http://localhost:${port}`);
+  console.log(`API running on port:${port}`);
 });
